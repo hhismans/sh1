@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 03:55:42 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/08 04:51:44 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/08 09:29:27 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_env(t_list *env)
 	}
 }
 
-char	*getvar(const char *str)
+static char		*getvar(const char *str)
 {
 	int i;
 	char *ret;
@@ -37,7 +37,8 @@ char	*getvar(const char *str)
 void	ft_setenv(t_list *env, char *var, char *content)
 {
 	char *tmpvar;
-	char new_var_env;
+	char *new_var_env;
+	t_list *tmp;
 
 	new_var_env = ft_strjoin(var, "=");
 	ft_strrealloc((char **)&(new_var_env), content);
@@ -50,7 +51,7 @@ void	ft_setenv(t_list *env, char *var, char *content)
 	while (env)
 	{
 		tmpvar = getvar(env->content);
-		if (ft_strcmp(tmpvar, var))
+		if (!ft_strcmp(tmpvar, var))
 		{
 			free(tmpvar);
 			free(env->content);
@@ -58,18 +59,21 @@ void	ft_setenv(t_list *env, char *var, char *content)
 			return ;
 		}
 		free(tmpvar);
-		if ((env = env->next) || !env->next)
-			break;
+		tmp = env;
+		env = env->next;
 	}
-	env->next = ft_lstnew(new_var_env, ft_strlen(tmpvar) + 1);
+	tmp->next = ft_lstnew(new_var_env, ft_strlen(new_var_env) + 1);
 }
 
-
+/*
 int main(int argc, char **argv, char **env)
 {
 //	ft_putendl(getvar("asd"));
 	t_list *e;
+	e = tabtolist(env);
+	ft_setenv(e,"PATH", "salut");
 
+	ft_env(e);
 
 	return (0);
-}
+}*/

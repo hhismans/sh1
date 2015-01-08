@@ -6,14 +6,14 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/02 17:28:03 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/08 04:07:07 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/08 09:26:25 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
-
+#include "sh1.h"
 /*
 ** FUNCTION : find_env
 ** return the element "elem" in the env variable
@@ -43,6 +43,7 @@ char *find_in_env(char **env, char *elem)
 }
 
 /*
+** /!\ Malloc use /!\
 ** FUNCTION : find_right_path
 ** return the right path to find the bin "command"
 ** RETURN VALUE : char *
@@ -112,13 +113,11 @@ t_list	*tabtolist(char **tab)
 	return (env);
 }
 
-void	inwhile(char **pathtab, char *line)
+void	inwhile(char **pathtab, char *line, char **tabarg)
 {
 		char	*rightpath;
-		char	**tabarg;
 		pid_t	father;
 
-		tabarg = ft_strsplit(line, ' ');
 		if(!(rightpath = find_right_path(pathtab, tabarg[0])))
 		{
 			ft_putstr("minishell: command not found : ");
@@ -136,11 +135,40 @@ void	inwhile(char **pathtab, char *line)
 		}
 }
 
+int		nbr_word_in_tab(char **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+int		case_builtin(char **tabarg, t_list *e, int argc)
+{
+	if (!ft_strcmp(tabarg[0], "env"))
+	{
+		ft_env(e);
+		return (1);
+	}
+	else if(!ft_strcmp(tabarg[0], "setenv"))
+	{
+		if (nbr_word_in_tab(tabarg) == 3)
+			ft_setenv(e, tabarg[1], tabarg[2]);
+		else
+			ft_putendl("Wrong number of argument: setenv");
+		return (1);
+	}
+	return (0);
+}
+
 int		main(int argc, char **argv, char **env)
 {
 	char *line;
 	char *path;
 	char **pathtab;
+	char **tabarg;
 	t_list *e;
 
 	path = find_in_env(env, "PATH");
@@ -150,8 +178,10 @@ int		main(int argc, char **argv, char **env)
 	{
 		ft_putstr("$>");
 		get_next_line(0, &line);
-		inwhile(pathtab, line);
+		tabarg = ft_strsplit(line, ' ');
+		if (!case_builtin(tabarg, e, argc))
+			inwhile(pathtab, line, tabarg);
 		free(line);
 	}
-	return (argc - argc +argv - argv);
+	return (argv - argv);
 }
