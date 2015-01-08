@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/02 17:28:03 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/07 21:06:50 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/08 04:07:07 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,26 +66,92 @@ char	*find_right_path(char **path, char *command)
 	return (NULL);
 }
 
-int main(int argc, char **argv, char **env)
+char	**remove_tabelem(char **tab, int elem)
+{
+	int i;
+	int j;
+	char **ret;
+	int size;
+
+	size = 0;
+	while (tab[size])
+		size++;
+	ret = (char **)malloc(sizeof(char *) * size);
+	i = 0;
+	j = 0;
+	free(tab[i]);
+	while (tab[i + 1])
+	{
+		if (i != elem)
+		{
+			ret[j] = ft_strdup(tab[i]);
+			free(tab[i + 1]);
+			j++;
+		}
+		i++;
+	}
+	ret[i] = NULL;
+	return (ret);
+}
+
+t_list	*tabtolist(char **tab)
+{
+	int i;
+	t_list *env;
+	t_list *tmp;
+
+	env = ft_lstnew(tab[0], ft_strlen(tab[0]) + 1);
+	i = 1;
+	tmp = env;
+	while (tab[i])
+	{
+		tmp->next = ft_lstnew(tab[i], strlen(tab[0]) + 1);
+		i++;
+		tmp = tmp->next;
+	}
+	return (env);
+}
+
+void	inwhile(char **pathtab, char *line)
+{
+		char	*rightpath;
+		char	**tabarg;
+		pid_t	father;
+
+		tabarg = ft_strsplit(line, ' ');
+		if(!(rightpath = find_right_path(pathtab, tabarg[0])))
+		{
+			ft_putstr("minishell: command not found : ");
+			ft_putendl(tabarg[0]);
+		}
+		else
+		{
+			father = fork();
+			if (father > 0)
+				wait(NULL);
+			if (father == 0)
+			{
+				execve(rightpath, tabarg, NULL);
+			}
+		}
+}
+
+int		main(int argc, char **argv, char **env)
 {
 	char *line;
 	char *path;
 	char **pathtab;
-	char *rightpath;
+	t_list *e;
 
-	argc = (int)argc;
-	argv = (char **)argv;
 	path = find_in_env(env, "PATH");
 	pathtab = ft_strsplit(path, ':');
+	e = tabtolist(env);
 	while (1)
 	{
 		ft_putstr("$>");
 		get_next_line(0, &line);
-		if(!(rightpath = find_right_path(pathtab, line)))
-			ft_putendl("minishell : Command not found :");
-		else
-			ft_putendl(rightpath);
+		inwhile(pathtab, line);
 		free(line);
 	}
-	return (0);
+	return (argc - argc +argv - argv);
 }
