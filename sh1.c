@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/02 17:28:03 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/08 09:26:25 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/09 01:03:20 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,19 +145,35 @@ int		nbr_word_in_tab(char **tab)
 	return (i);
 }
 
-int		case_builtin(char **tabarg, t_list *e, int argc)
+void	ft_cd(char *path)
+{
+	chdir(path);
+}
+int		case_builtin(char **tabarg, t_list **e, int argc)
 {
 	if (!ft_strcmp(tabarg[0], "env"))
 	{
-		ft_env(e);
+		ft_env(*e);
+		return (1);
+	}
+	else if(!ft_strcmp(tabarg[0], "cd"))
+	{
+		chdir(tabarg[1]);
 		return (1);
 	}
 	else if(!ft_strcmp(tabarg[0], "setenv"))
 	{
 		if (nbr_word_in_tab(tabarg) == 3)
-			ft_setenv(e, tabarg[1], tabarg[2]);
+			ft_setenv(*e, tabarg[1], tabarg[2]);
 		else
 			ft_putendl("Wrong number of argument: setenv");
+		return (1);
+	}
+	else if (!ft_strcmp(tabarg[0], "exit"))
+		exit(0);
+	else if (!ft_strcmp(tabarg[0], "unsetenv"))
+	{
+		ft_unsetenv(e, tabarg[1]);
 		return (1);
 	}
 	return (0);
@@ -179,7 +195,7 @@ int		main(int argc, char **argv, char **env)
 		ft_putstr("$>");
 		get_next_line(0, &line);
 		tabarg = ft_strsplit(line, ' ');
-		if (!case_builtin(tabarg, e, argc))
+		if (!case_builtin(tabarg, &e, argc))
 			inwhile(pathtab, line, tabarg);
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 03:55:42 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/08 09:29:27 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/09 07:39:04 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,46 @@ static char		*getvar(const char *str)
 		i++;
 	ret = ft_strndup(str, i);
 	return (ret);
+}
+
+void	freelist(t_list *env)
+{
+	free(env->content);
+	free(env->next);
+	free(env);
+}
+
+void	ft_cd(char *path)
+{
+	chdir(path);
+	//ft_setenv("PWD",
+}
+void	ft_unsetenv(t_list **env, char *var)
+{
+	t_list *ltmp;
+	char	*ctmp;
+
+	ctmp = getvar((*env)->content);
+	if (!strcmp(ctmp, var))
+	{
+		ltmp = (*env);
+		*env = ltmp->next;
+		freelist(ltmp);
+		return ;
+	}
+	ltmp = (*env);
+	(*env) = (*env)->next;
+	while (*env)
+	{
+		ctmp = getvar((*env)->content);
+		if (!strcmp(ctmp, var))
+		{
+			ltmp->next = (*env)->next;
+			freelist(*env);
+		}
+		ltmp = (*env);
+		*env = (*env)->next;
+	}
 }
 
 void	ft_setenv(t_list *env, char *var, char *content)
