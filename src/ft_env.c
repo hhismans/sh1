@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:27:20 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/11 09:27:43 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/11 11:10:35 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ft_env(t_list **env, char **tabarg)
 {
-	t_list *tmp;
+	t_list	*tmp;
+
 	tmp = *env;
 	if (tabarg[0][0] == 'e')
 	{
@@ -25,4 +26,3 @@ void	ft_env(t_list **env, char **tabarg)
 		}
 	}
 }
-
