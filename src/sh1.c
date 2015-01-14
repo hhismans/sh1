@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/02 17:28:03 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/11 14:16:17 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/14 23:18:00 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*find_in_env(char **env, char *elem)
 	return (path);
 }
 
-void	inwhile(char **pathtab, char *line, char **tabarg)
+void	inwhile(char **pathtab, char **tabarg)
 {
 	char	*rightpath;
 	pid_t	father;
@@ -86,7 +86,7 @@ int		nbr_word_in_tab(char **tab)
 	return (i);
 }
 
-int		case_builtin(char **tabarg, t_list **e, int argc)
+int		case_builtin(char **tabarg, t_list **e)
 {
 	int i;
 
@@ -119,9 +119,9 @@ int		main(int argc, char **argv, char **env)
 		ft_putstr("$>");
 		get_next_line(0, &line);
 		tabarg = ft_strsplit(line, ' ');
-		if (!case_builtin(tabarg, &e, argc))
-			inwhile(pathtab, line, tabarg);
+		if (!case_builtin(tabarg, &e))
+			inwhile(pathtab, tabarg);
 		free(line);
 	}
-	return (argv - argv);
+	return (argv - argv + argc - argc);
 }

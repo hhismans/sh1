@@ -6,12 +6,14 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:28:28 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/11 14:58:19 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/14 23:12:47 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
+#include <unistd.h>
+#include "sh1.h"
 
 char	*find_in_env_l(t_list *env, char *elem)
 {
@@ -33,6 +35,38 @@ char	*find_in_env_l(t_list *env, char *elem)
 	return (path);
 }
 
+void		ft_setpwd(t_list **env, char **tab)
+{
+	size_t	i;
+	char *pwd;
+
+	i = 1;
+	pwd = ft_memalloc(1);
+	while (!(getcwd(pwd, i)))
+	{
+		i++;
+		free(pwd);
+		pwd = ft_memalloc(i);
+	}
+	tab[1] = "PWD";
+	tab[2] = ft_strdup(pwd);
+	free(pwd);
+	ft_setenv(env, tab);
+}
+void	freetab(char **tab)
+{
+	int i;
+
+	i = 0;
+	while(tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab[i]);
+	free(tab);
+}
+
 void	ft_cd(t_list **env, char **tabarg)
 {
 	char **tab;
@@ -42,15 +76,9 @@ void	ft_cd(t_list **env, char **tabarg)
 	tab[1] = ft_strdup("OLDPWD");
 	tab[2] = find_in_env_l(*env, "PWD");
 	tab[3] = NULL;
-	int i = 0;
-	while (tab[i])
-	{
-		ft_putendl(tab[i]);
-		i++;
-	}
-	if (chdir(tabarg[1]) == 0)
-		return (0);
-	if (!strcmp tabarg[1] "..")
+	chdir(tabarg[1]);
 	ft_setenv(env, tab);
+	ft_setpwd(env, tab);
+	free(tab);
 }
 
