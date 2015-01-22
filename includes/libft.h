@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/04 13:32:34 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/07 20:27:10 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/14 23:34:39 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 # define LIBFT_H
 
-#define BUFF_SIZE 4096
+# define BUFF_SIZE 4096
 # include <string.h>
+
 typedef struct	s_list
 {
 	void			*content;
