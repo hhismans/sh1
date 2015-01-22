@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/04 13:32:34 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/14 23:34:39 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/22 10:20:29 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 # define LIBFT_H
 
-# define BUFF_SIZE 4096
+#define BUFF_SIZE 4096
 # include <string.h>
-
 typedef struct	s_list
 {
 	void			*content;
@@ -55,6 +54,7 @@ void			ft_strclr(char *s);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_isascii(int c);
+int				ft_isblank(int c);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);
@@ -76,6 +76,7 @@ char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
 char			**ft_strsplit(char const *s, char c);
+char			**ft_strsplit_blank(char const *s);
 char			*ft_itoa(int n);
 t_list			*ft_lstnew(void const *content, size_t content_size);
 void			ft_lstdelone(t_list **alst, void (*del)(void *, size_t));

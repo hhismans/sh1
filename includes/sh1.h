@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 08:40:37 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/22 05:58:24 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/22 10:04:19 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,6 @@ int				nbr_word_in_tab(char **tab);
 char			**up_env(t_list *e);
 void			trimtabarg(char **tabarg);
 int				nbr_word_in_tab(char **tab);
+void			case_path(char **tabarg, char **env);
+void			fork_and_exe(char **tabarg, char **env, char *rightpath);
 #endif

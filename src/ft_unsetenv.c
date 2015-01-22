@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:29:10 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/22 10:58:04 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/22 11:36:40 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_unsetenv2(t_list *env, char **tabarg)
 		{
 			ltmp->next = (env)->next;
 			freelist(env);
+			break;
 		}
 		ltmp = (env);
 		env = (env)->next;
@@ -42,7 +43,7 @@ void	ft_unsetenv(t_list **env, char **tabarg)
 	if (nbr_word_in_tab(tabarg) != 2)
 	{
 		ft_putendl("Wrong number of argument: unsetenv");
-		return;
+		return ;
 	}
 	tmp = *env;
 	ctmp = getvar((*env)->content);

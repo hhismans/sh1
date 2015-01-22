@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/22 03:18:27 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/22 11:11:28 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/22 12:40:44 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	**up_env(t_list *e)
 	tmp = e;
 	while (tmp)
 	{
-		ft_putendl(tmp->content);
 		tmp = tmp->next;
 		nbr_elemt++;
 	}

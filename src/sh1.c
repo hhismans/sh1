@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/02 17:28:03 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/22 10:00:49 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/22 12:35:48 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	inwhile(char **tabarg, t_list *e)
 	{
 		if (!pathtab || !(rightpath = find_right_path(pathtab, tabarg[0])))
 		{
+			ft_putendl(tabarg[0]);
+			ft_putendl(path);
 			ft_putstr("minishell: command not found : ");
 			ft_putendl(tabarg[0]);
 		}
