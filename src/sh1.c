@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/02 17:28:03 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/22 06:51:02 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/22 10:00:49 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,21 @@ void	inwhile(char **tabarg, t_list *e)
 	char	**pathtab;
 
 	env = up_env(e);
-	path = find_in_env(env, "PATH");
-	pathtab = ft_strsplit(path, ':');
-	if (!(strcmp("exit", tabarg[0])))
-		exit(0);
-	if (!(rightpath = find_right_path(pathtab, tabarg[0])))
-	{
-		ft_putstr("minishell: command not found : ");
-		ft_putendl(tabarg[0]);
-	}
+	pathtab = NULL;
+	if ((path = find_in_env(env, "PATH")))
+		pathtab = ft_strsplit(path, ':');
+	if (tabarg[0][0] == '/')
+		case_path(tabarg, env);
 	else
-		fork_and_exe(tabarg, env, rightpath);
+	{
+		if (!pathtab || !(rightpath = find_right_path(pathtab, tabarg[0])))
+		{
+			ft_putstr("minishell: command not found : ");
+			ft_putendl(tabarg[0]);
+		}
+		else
+			fork_and_exe(tabarg, env, rightpath);
+	}
 	free(path);
 	freetab(pathtab);
 	freetab(env);
@@ -118,13 +122,15 @@ int		main(int argc, char **argv, char **env)
 	{
 		ft_putstr("$>");
 		get_next_line(0, &line);
-		if (ft_strlen(line))
+		tmp = line;
+		line = ft_strtrim(line);
+		free(tmp);
+		tabarg = ft_strsplit_blank(line);
+		trimtabarg(tabarg);
+		if (tabarg[0])
 		{
-			tmp = line;
-			line = ft_strtrim(line);
-			free(tmp);
-			tabarg = ft_strsplit(line, ' ');
-			trimtabarg(tabarg);
+			if (!(strcmp("exit", tabarg[0])))
+				exit(0);
 			if (!case_builtin(tabarg, &e))
 				inwhile(tabarg, e);
 			free(line);
