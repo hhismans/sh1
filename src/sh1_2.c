@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 11:15:11 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/11 11:15:36 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/22 06:55:06 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,9 @@ t_list	*tabtolist(char **tab)
 	tmp = env;
 	while (tab[i])
 	{
-		tmp->next = ft_lstnew(tab[i], strlen(tab[0]) + 1);
+		tmp->next = ft_lstnew(tab[i], strlen(tab[i]) + 1);
 		i++;
 		tmp = tmp->next;
 	}
 	return (env);
 }
-

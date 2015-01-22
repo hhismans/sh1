@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:30:00 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/14 23:15:58 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/22 02:49:41 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ int		ft_setenv2(t_list *tmp2, char **tabarg, char *new_var_env)
 	return (0);
 }
 
+void	ft_envadd(t_list *env, char *new_var_env)
+{
+	while (env->next)
+	{
+		env = env->next;
+	}
+	env->next = ft_lstnew(new_var_env, ft_strlen(new_var_env) + 1);
+}
+
 void	ft_setenv(t_list **env, char **tabarg)
 {
 	char	*new_var_env;
@@ -55,4 +64,6 @@ void	ft_setenv(t_list **env, char **tabarg)
 	}
 	if (ft_setenv2(tmp2, tabarg, new_var_env))
 		return ;
+	else
+		ft_envadd(*env, new_var_env);
 }

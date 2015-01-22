@@ -6,7 +6,7 @@
 /*   By: hhismans <hhismans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:28:28 by hhismans          #+#    #+#             */
-/*   Updated: 2015/01/14 23:12:47 by hhismans         ###   ########.fr       */
+/*   Updated: 2015/01/22 03:22:36 by hhismans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include "sh1.h"
 
-char	*find_in_env_l(t_list *env, char *elem)
+char		*find_in_env_l(t_list *env, char *elem)
 {
 	int		j;
 	char	*path;
@@ -38,7 +38,7 @@ char	*find_in_env_l(t_list *env, char *elem)
 void		ft_setpwd(t_list **env, char **tab)
 {
 	size_t	i;
-	char *pwd;
+	char	*pwd;
 
 	i = 1;
 	pwd = ft_memalloc(1);
@@ -53,21 +53,8 @@ void		ft_setpwd(t_list **env, char **tab)
 	free(pwd);
 	ft_setenv(env, tab);
 }
-void	freetab(char **tab)
-{
-	int i;
 
-	i = 0;
-	while(tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab[i]);
-	free(tab);
-}
-
-void	ft_cd(t_list **env, char **tabarg)
+void		ft_cd(t_list **env, char **tabarg)
 {
 	char **tab;
 
@@ -81,4 +68,3 @@ void	ft_cd(t_list **env, char **tabarg)
 	ft_setpwd(env, tab);
 	free(tab);
 }
-
